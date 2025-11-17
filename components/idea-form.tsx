@@ -91,13 +91,14 @@ export function IdeaForm() {
                 value={title}
                 onChange={(event) => setTitle(event.target.value)}
                 disabled={isPending}
-                className="border-none px-0 shadow-none outline-none focus-visible:ring-0 focus-visible:border-transparent"
+                className="border-none px-0 shadow-none outline-none focus-visible:ring-0 focus-visible:border-transparent text-2xl font-bold"
               />
               <Textarea
                 placeholder="Add an idea..."
                 value={content}
                 onChange={(event) => setContent(event.target.value)}
                 rows={1}
+                autoFocus
                 disabled={isPending}
                 className="border-none px-0 shadow-none outline-none focus-visible:ring-0 focus-visible:border-transparent"
               />

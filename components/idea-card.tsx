@@ -135,22 +135,6 @@ export function IdeaCard({
             <CardTitle className="text-base">
               {idea.title || 'Untitled idea'}
             </CardTitle>
-            {canDelete && (
-              <div className="flex items-center gap-1">
-                <Button
-                  type="button"
-                  size="icon-sm"
-                  variant="ghost"
-                  className="text-zinc-500 hover:text-red-600 dark:text-zinc-400 dark:hover:text-red-400"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    setIsDeleteOpen(true);
-                  }}
-                >
-                  <Trash2 className="size-4" />
-                </Button>
-              </div>
-            )}
           </div>
         </CardHeader>
         {idea.content && (
@@ -177,7 +161,7 @@ export function IdeaCard({
             </div>
           )}
           <div className="flex items-start">
-            <span>
+            <div>
               {idea.edited_at
                 ? `Edited ${new Date(idea.edited_at).toLocaleString(undefined, {
                     month: 'short',
@@ -191,7 +175,7 @@ export function IdeaCard({
                     hour: '2-digit',
                     minute: '2-digit',
                   })}
-            </span>
+            </div>
           </div>
         </CardFooter>
       </Card>
@@ -266,18 +250,31 @@ export function IdeaCard({
                   disabled={isPending}
                 />
               </div>
-              <DialogFooter>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setIsEditOpen(false)}
-                  disabled={isPending}
-                >
-                  Cancel
-                </Button>
-                <Button type="submit" disabled={isPending}>
-                  {isPending ? 'Saving...' : 'Save'}
-                </Button>
+              <DialogFooter className="flex w-full items-center justify-between gap-3">
+                {canDelete && (
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    className="mr-auto"
+                    onClick={() => setIsDeleteOpen(true)}
+                    disabled={isPending}
+                  >
+                    Delete
+                  </Button>
+                )}
+                <div className="ml-auto flex items-center gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setIsEditOpen(false)}
+                    disabled={isPending}
+                  >
+                    Cancel
+                  </Button>
+                  <Button type="submit" disabled={isPending}>
+                    {isPending ? 'Saving...' : 'Save'}
+                  </Button>
+                </div>
               </DialogFooter>
               {error && (
                 <p className="text-xs text-red-600 dark:text-red-400">
