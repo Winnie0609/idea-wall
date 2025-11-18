@@ -1,0 +1,78 @@
+---
+alwaysApply: true
+---
+
+# Cursor Rules for SparkFloow
+
+## Project Overview
+
+SparkFloow is a Real-time Idea Wall application (similar to Google Keep) built with modern frontend technologies.
+
+---
+
+## Tech Stack
+
+- **Framework:** Next.js 15 with React 19
+- **Language:** TypeScript (strict mode)
+- **Styling:** Tailwind CSS v4
+- **UI Components:** shadcn/ui components
+- **Icons:** Lucide React icons
+- **Package Manager:** pnpm
+- **Database & Auth:** Supabase
+- **State Management:** TanStack Query (React Query)
+- **Validation:** Zod
+
+---
+
+
+## Code Patterns & Standards
+
+### Component Patterns
+
+- Prefer server components by default, use `"use client"` directive only when necessary (interactivity, hooks, browser APIs)
+- Follow Next.js App Router patterns and conventions
+- Use TypeScript strict mode for all files
+- Export named functions for components when possible
+- Use pnpm for all package management
+
+### Styling
+
+- Use `cn()` utility for conditional classes: `import { cn } from "@/lib/utils"`
+- Follow Tailwind CSS best practices
+- Use shadcn/ui components as base components
+
+### Code Quality
+
+- All code comments must be in English
+- Do not use emojis in code
+- Write clean, maintainable, and self-documenting code
+- Use meaningful variable and function names
+- Follow consistent naming conventions (camelCase for variables/functions, PascalCase for components/types)
+
+### Type Safety
+
+- Use TypeScript strict mode
+- Define proper types and interfaces
+- Use Zod for runtime validation
+- Avoid `any` type unless absolutely necessary
+
+### State Management
+
+- Use TanStack Query for server state management
+- Leverage React Query's caching and invalidation strategies
+- Use React hooks for local component state
+
+### Database & Backend
+
+- Use Supabase for database operations and authentication
+- Follow Supabase best practices for queries and real-time subscriptions
+- Implement proper error handling for database operations
+
+---
+
+## File Organization
+
+- Follow Next.js App Router file structure
+- Co-locate related files (components, hooks, utilities)
+- Use barrel exports (`index.ts`) where appropriate
+- Keep components small and focused
