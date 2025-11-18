@@ -9,17 +9,15 @@
 ## AI 輔助日誌
 
 1. 技術規範：先設定規範，開發一個 MVP 版本的創意想法牆 (Idea Wall)
-- 幫我規劃一個 MVP 開發文件，大致功能如下:
-   - Tech Stack: next.js, react, tyscript, tailwind, supabase, shadcn
-   - Feature: card crud, grid layout, pagination, toast, tag
+   - 幫我規劃一個 MVP 開發文件，大致功能如下:
+      - Tech Stack: next.js, react, tyscript, tailwind, supabase, shadcn
+      - Feature: card crud, grid layout, pagination, toast, tag
 
 2. 架構優先：在寫 Code 前先確認實作邏輯
-- 幫我用 shadcn 實作 Pagination，功能需包含 PageSize 切換與換頁按鈕。
-- **先不要寫 code** 先跟我說你打算怎麼做，跟我解釋清楚 每一步，等確認好了才繼續。
+   - 幫我用 shadcn 實作 Pagination，功能需包含 PageSize 切換與換頁按鈕。**先不要寫 code** 先跟我說你打算怎麼做，跟我解釋清楚 每一步，等確認好了才繼續。
 
 3. 邏輯抽離：太臃腫的 file, 太長的 code 抽出來處理，違反單一職責原則的 component 
-- app/page.ts 太長太肥，把 form & idea 抽出來處理；
-- 把 supabase 相關的 function 集中管理，放在 lib 裡，UI 和資料庫實作細節拆開
+   - app/page.ts 太長太肥，把 form & idea 抽出來處理；把 supabase 相關的 function 集中管理，放在 lib 裡，UI 和資料庫實作細節拆開
 
 ## Features
 
@@ -58,44 +56,44 @@
 └─────────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────────┐
-│  Next.js Server (Vercel Serverless/Edge)                       │
-│  ┌───────────────────────────────────────────────────────────┐ │
-│  │  Server Components (SSR)                                  │ │
+│  Next.js Server (Vercel Serverless/Edge)                        │
+│  ┌───────────────────────────────────────────────────────────┐  │
+│  │  Server Components (SSR)                                  │  │
+│  │                                                           │  │
+│  │  app/page.tsx                                             │  │
+│  │   → 解析 URL params (?page=2&pageSize=20)                  │  │
+│  │   → 驗證並修正參數 (page=999 → lastPage)                     │  │
+│  │   → await fetchIdeasPaginated(page, pageSize)             │  │
+│  │   → 渲染 HTML 並傳送至瀏覽器                                  │ │
 │  │                                                            │ │
-│  │  app/page.tsx                                             │ │
-│  │   → 解析 URL params (?page=2&pageSize=20)                 │ │
-│  │   → 驗證並修正參數 (page=999 → lastPage)                  │ │
-│  │   → await fetchIdeasPaginated(page, pageSize)             │ │
-│  │   → 渲染 HTML 並傳送至瀏覽器                               │ │
-│  │                                                            │ │
-│  │  lib/ideas.ts                                             │ │
-│  │   → Step 1: count 總筆數（head: true，不拿資料）           │ │
-│  │   → Step 2: 計算 totalPages，normalize page               │ │
-│  │   → Step 3: range(from, to) 獲取該頁資料                  │ │
-│  └───────────────────────────────────────────────────────────┘ │
+│  │  lib/ideas.ts                                              │ │
+│  │   → Step 1: count 總筆數（head: true，不拿資料）              │ │
+│  │   → Step 2: 計算 totalPages，normalize page                 │ │
+│  │   → Step 3: range(from, to) 獲取該頁資料                     │ │
+│  └────────────────────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────────┐
-│  Supabase (Backend as a Service)                               │
-│  ┌───────────────────────────────────────────────────────────┐ │
-│  │  PostgreSQL Database                                      │ │
-│  │                                                            │ │
+│  Supabase (Backend as a Service)                                │
+│  ┌───────────────────────────────────────────────────────────┐  │
+│  │  PostgreSQL Database                                      │  │
+│  │                                                           │ │
 │  │  Table: ideas                                             │ │
 │  │  ┌──────────────────────────────────────────────────────┐ │ │
 │  │  │ id (SERIAL PK)  │ created_at │ edited_at │ title     │ │ │
 │  │  │ content (TEXT)  │ tags (TEXT[])                      │ │ │
 │  │  └──────────────────────────────────────────────────────┘ │ │
-│  │                                                            │ │
+│  │                                                           │ │
 │  │  Index: id (PK), created_at (DESC) ← 加速排序              │ │
-│  │  RLS Policy: 公開讀寫（demo 用途）                         │ │
+│  │  RLS Policy: 公開讀寫（demo 用途）                           │ │
 │  └───────────────────────────────────────────────────────────┘ │
-│                                                                 │
+│                                                                │
 │  REST API (自動生成)                                            │
 │   → supabase.from('ideas').select()                            │
 │   → supabase.from('ideas').insert()                            │
 │   → supabase.from('ideas').update()                            │
 │   → supabase.from('ideas').delete()                            │
-└─────────────────────────────────────────────────────────────────┘
+└────────────────────────────────────────────────────────────────┘
 ```
 
 分頁策略說明：

@@ -37,57 +37,57 @@ A real-time idea wall application that allows users to freely create, edit, and 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │  Browser                                                        │
-│  ┌───────────────────────────────────────────────────────────┐ │
-│  │  Client Components ("use client")                         │ │
-│  │                                                            │ │
-│  │  ┌─────────────┐  ┌──────────────┐  ┌──────────────────┐ │ │
-│  │  │ IdeaForm    │  │  IdeaCard    │  │ PaginationBar    │ │ │
-│  │  │ - useState  │  │  - Dialog    │  │ - useRouter      │ │ │
-│  │  │ - onSubmit  │  │  - Edit/Del  │  │ - URL params     │ │ │
-│  │  └─────────────┘  └──────────────┘  └──────────────────┘ │ │
-│  │                                                            │ │
-│  │  After action → router.refresh() → Trigger server refetch │ │
-│  └───────────────────────────────────────────────────────────┘ │
+│  ┌───────────────────────────────────────────────────────────┐  │
+│  │  Client Components ("use client")                         │  │
+│  │                                                           │  │
+│  │  ┌─────────────┐  ┌──────────────┐  ┌──────────────────┐  │  │
+│  │  │ IdeaForm    │  │  IdeaCard    │  │ PaginationBar    │  │  │
+│  │  │ - useState  │  │  - Dialog    │  │ - useRouter      │  │  │
+│  │  │ - onSubmit  │  │  - Edit/Del  │  │ - URL params     │  │  │
+│  │  └─────────────┘  └──────────────┘  └──────────────────┘  │  │
+│  │                                                           │  │
+│  │  After action → router.refresh() → Trigger server refetch │  │
+│  └───────────────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────────┐
-│  Next.js Server (Vercel Serverless/Edge)                       │
-│  ┌───────────────────────────────────────────────────────────┐ │
-│  │  Server Components (SSR)                                  │ │
-│  │                                                            │ │
-│  │  app/page.tsx                                             │ │
-│  │   → Parse URL params (?page=2&pageSize=20)                │ │
-│  │   → Validate & normalize params (page=999 → lastPage)     │ │
-│  │   → await fetchIdeasPaginated(page, pageSize)             │ │
-│  │   → Render HTML and send to browser                       │ │
-│  │                                                            │ │
-│  │  lib/ideas.ts                                             │ │
-│  │   → Step 1: count total items (head: true, no data)       │ │
-│  │   → Step 2: calculate totalPages, normalize page          │ │
-│  │   → Step 3: range(from, to) fetch page data               │ │
-│  └───────────────────────────────────────────────────────────┘ │
+│  Next.js Server (Vercel Serverless/Edge)                        │
+│  ┌───────────────────────────────────────────────────────────┐  │
+│  │  Server Components (SSR)                                  │  │
+│  │                                                           │  │
+│  │  app/page.tsx                                             │  │
+│  │   → Parse URL params (?page=2&pageSize=20)                │  │
+│  │   → Validate & normalize params (page=999 → lastPage)     │  │
+│  │   → await fetchIdeasPaginated(page, pageSize)             │  │
+│  │   → Render HTML and send to browser                       │  │
+│  │                                                           │  │
+│  │  lib/ideas.ts                                             │  │
+│  │   → Step 1: count total items (head: true, no data)       │  │
+│  │   → Step 2: calculate totalPages, normalize page          │  │
+│  │   → Step 3: range(from, to) fetch page data               │  │
+│  └───────────────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────────┐
-│  Supabase (Backend as a Service)                               │
-│  ┌───────────────────────────────────────────────────────────┐ │
-│  │  PostgreSQL Database                                      │ │
-│  │                                                            │ │
-│  │  Table: ideas                                             │ │
-│  │  ┌──────────────────────────────────────────────────────┐ │ │
-│  │  │ id (SERIAL PK)  │ created_at │ edited_at │ title     │ │ │
-│  │  │ content (TEXT)  │ tags (TEXT[])                      │ │ │
-│  │  └──────────────────────────────────────────────────────┘ │ │
-│  │                                                            │ │
-│  │  Index: id (PK), created_at (DESC) ← Speed up sorting     │ │
-│  │  RLS Policy: Public read/write (for demo purposes)        │ │
-│  └───────────────────────────────────────────────────────────┘ │
+│  Supabase (Backend as a Service)                                │
+│  ┌───────────────────────────────────────────────────────────┐  │
+│  │  PostgreSQL Database                                      │  │
+│  │                                                           │  │
+│  │  Table: ideas                                             │  │
+│  │  ┌──────────────────────────────────────────────────────┐ │  │
+│  │  │ id (SERIAL PK)  │ created_at │ edited_at │ title     │ │  │
+│  │  │ content (TEXT)  │ tags (TEXT[])                      │ │  │
+│  │  └──────────────────────────────────────────────────────┘ │  │
+│  │                                                           │  │
+│  │  Index: id (PK), created_at (DESC) ← Speed up sorting     │  │
+│  │  RLS Policy: Public read/write (for demo purposes)        │  │
+│  └───────────────────────────────────────────────────────────┘  │
 │                                                                 │
 │  REST API (Auto-generated)                                      │
-│   → supabase.from('ideas').select()                            │
-│   → supabase.from('ideas').insert()                            │
-│   → supabase.from('ideas').update()                            │
-│   → supabase.from('ideas').delete()                            │
+│   → supabase.from('ideas').select()                             │
+│   → supabase.from('ideas').insert()                             │
+│   → supabase.from('ideas').update()                             │
+│   → supabase.from('ideas').delete()                             │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
