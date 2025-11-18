@@ -9,14 +9,17 @@
 ## AI 輔助日誌
 
 1. 技術規範：先設定規範，開發一個 MVP 版本的創意想法牆 (Idea Wall)
-   Tech Stack: next.js, react, tyscript, tailwind, supabase, shadcn
-   Feature: card crud, grid layout, pagination, toast, tag
+- 幫我規劃一個 MVP 開發文件，大致功能如下:
+   - Tech Stack: next.js, react, tyscript, tailwind, supabase, shadcn
+   - Feature: card crud, grid layout, pagination, toast, tag
 
 2. 架構優先：在寫 Code 前先確認實作邏輯
-   幫我用 shadcn 實作 Pagination，功能需包含 PageSize 切換與換頁按鈕。**先不要寫 code** 先跟我說你打算怎麼做，跟我解釋清楚 每一步，等確認好了才繼續。
+- 幫我用 shadcn 實作 Pagination，功能需包含 PageSize 切換與換頁按鈕。
+- **先不要寫 code** 先跟我說你打算怎麼做，跟我解釋清楚 每一步，等確認好了才繼續。
 
-3. 邏輯抽離：太臃腫的 file, 太長的 code 抽出來處理，違反單一職責原則 (Single Responsibility Principle)
-   app/page.ts 太長太肥，把 form & idea 抽出來處理；把 supabase 相關的 function 集中管理，放在 lib 裡，UI 和資料庫實作細節拆開
+3. 邏輯抽離：太臃腫的 file, 太長的 code 抽出來處理，違反單一職責原則的 component 
+- app/page.ts 太長太肥，把 form & idea 抽出來處理；
+- 把 supabase 相關的 function 集中管理，放在 lib 裡，UI 和資料庫實作細節拆開
 
 ## Features
 
